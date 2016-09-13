@@ -1,3 +1,4 @@
+## 初期セットアップ
 ### python3へアップデート
 brew install pyenv
 export PYENV_ROOT="$HOME/.pyenv"
