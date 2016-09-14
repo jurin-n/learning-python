@@ -1,4 +1,6 @@
-from flask import Flask
+from flask import Flask,request
+import json
+
 app = Flask(__name__, static_folder=".",static_url_path="")
 
 @app.route("/")
@@ -9,5 +11,9 @@ def home():
 def echo(thing):
     return thing
 
-app.run(port=9999, debug=True)
+@app.route("/json", methods=['POST'])
+def post_json():
+    request_body = request.get_json(force=False, silent=False, cache=True)
+    return json.dumps(request_body)
 
+app.run(port=9999, debug=True)
