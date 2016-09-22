@@ -10,3 +10,5 @@ for number, outlook in enumerate(weekly.forecast(), 1):
 print("#モジュールのサーチパス表示#")
 for place in sys.path:
     print(place)
+
+print("__name__ in package.py is " , globals().get('__name__'))
