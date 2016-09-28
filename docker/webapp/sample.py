@@ -1,7 +1,9 @@
-from flask import Flask,request
 import json
+import os
 
-app = Flask(__name__, static_folder=".",static_url_path="")
+from flask import Flask, request
+
+app = Flask(__name__, static_folder=".", static_url_path="")
 
 @app.route("/")
 def home():
@@ -16,5 +18,6 @@ def post_json():
     request_body = request.get_json(force=False, silent=False, cache=True)
     return json.dumps(request_body)
 
-#app.run(port=80, debug=True)
-app.run()
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
