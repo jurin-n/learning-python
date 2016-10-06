@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 conn = sa.create_engine('sqlite:///zoo.db')
 Base = declarative_base()
-Base.metadata.create_all(conn)
+Base.metadata.create_all(conn ,tables=[zoo.Zoo.__table__])
 
 first = zoo.Zoo('duck', 10, 0.0)
 second = zoo.Zoo('bear', 2, 1000.0)
