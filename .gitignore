@@ -10,5 +10,6 @@ __pycache__/
 *.db
 
 .eggs/
+.egg-info
 
 .settings
