@@ -8,3 +8,7 @@ __pycache__/
 
 # DB data
 *.db
+
+.eggs/
+
+.settings
