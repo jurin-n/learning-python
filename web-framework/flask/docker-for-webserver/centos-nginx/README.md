@@ -15,6 +15,9 @@ docker exec -it webserver /bin/bash
 ### pipインストールについて
 https://pip.pypa.io/en/latest/installing/
 
+### uWSGIについて
+http://flask.pocoo.org/docs/0.11/deploying/uwsgi/
+
 ### Nginx
 デフォルト設定
 /etc/nginx/nginx.conf
