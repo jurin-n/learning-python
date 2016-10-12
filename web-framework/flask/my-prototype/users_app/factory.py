@@ -7,10 +7,11 @@ def create_app(config_filename):
     app = Flask(__name__)
     # app.config.from_pyfile(config_filename)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-    db.init_app(app)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/users_app.db'
 
     from views import resource
+    from models import User
     app.register_blueprint(resource)
+    db.init_app(app)
 
     return app
