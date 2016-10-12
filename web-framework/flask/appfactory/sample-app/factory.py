@@ -9,6 +9,6 @@ def create_app(config_filename):
     # db.init_app(app)
 
     from view import resource
-    app.register_blueprint(admin)
+    app.register_blueprint()
 
     return app
