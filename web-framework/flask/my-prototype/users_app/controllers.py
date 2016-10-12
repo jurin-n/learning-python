@@ -1,8 +1,7 @@
 from flask import Blueprint, request
-from flask.json import dumps
 from flask import Response
+from flask.json import dumps
 import models
-from factory import db
 
 resource = Blueprint('users_app', __name__)
 
