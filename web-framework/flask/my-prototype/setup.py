@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='my-prototype-user',
-    packages=['user'],
+    name='users_app',
+    packages=['users_app'],
     include_package_data=True,
     install_requires=[
         'flask'
