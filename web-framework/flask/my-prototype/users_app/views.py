@@ -1,20 +1,20 @@
 from flask import Blueprint, request
-import json
-from models import User
+from flask.json import dumps
+from flask import Response
+import models
 from factory import db
 
 resource = Blueprint('users_app', __name__)
 
 @resource.route('/<id>', methods=['GET'])
 def get_user(id):
-    return 'Hello ID=' + id + ' User!!!!!!!!!'
+    user = models.get_user(id)
+    return Response(dumps(user.user_dict()), status=200, mimetype='application/json')
 
 @resource.route('/', methods=['POST'])
 def post_user():
     request_body = request.get_json(force=False, silent=False, cache=True)
-    admin = User(request_body.get('username'), request_body.get('email'))
-
-    db.session.add(admin)
-    db.session.commit()
     
+    models.add_user(request_body.get('username'), request_body.get('email'))
+
     return '{"status":"SUCCESS"}' 

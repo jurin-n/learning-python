@@ -12,4 +12,27 @@ class User(db.Model):
         self.email = email
 
     def __repr__(self):
-        return '<User %r>' % self.id
+        return '<User id=%r,username=%r,email=%r>' % self.id % self.username % self.email
+        # user_dict = {}
+        # user_dict['id'] = self.id
+        # user_dict['username'] = self.username
+        # user_dict['email'] = self.email
+        # return user_dict
+
+    def user_dict(self):
+        user_dict = {}
+        user_dict['id'] = self.id
+        user_dict['username'] = self.username
+        user_dict['email'] = self.email
+        return user_dict
+
+def get_user(id):
+    return User.query.filter_by(id=id).first()
+
+def add_user(username,email):
+    admin = User(username,email)
+
+    db.session.add(admin)
+    db.session.commit()
+
+    return
