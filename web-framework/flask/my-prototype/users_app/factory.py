@@ -6,7 +6,7 @@ db = SQLAlchemy()
 def create_app(config_filename):
     app = Flask(__name__)
     # app.config.from_pyfile(config_filename)
-
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/users_app.db'
 
     from controllers import resource
