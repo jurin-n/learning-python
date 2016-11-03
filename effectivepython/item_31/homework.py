@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Homework(object):
     def __init__(self):
         self._grade = 0

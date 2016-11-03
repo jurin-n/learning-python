@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Exam(object):
     def __init__(self):
         self._writing_grade = 0
