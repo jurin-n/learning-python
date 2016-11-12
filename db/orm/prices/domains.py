@@ -1,30 +1,17 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import (Column, String, ForeignKey)
-
+from sqlalchemy.orm import relationship
 Base = declarative_base()
 
-class Price(Base):
-    __tablename__ = 'prices'
-
-    price_id = Column(String(255), primary_key=True)
-    name = Column(String(100))
-    pattern_id = Column(String(10), ForeignKey('accounting_pattern.pattern_id'))
-    
-    def __init__(self , **kwargs):
-        self.price_id = kwargs.pop('price_id', '')
-        self.name = kwargs.pop('name', '')
-        self.accounting_pattern = kwargs.pop('accounting_pattern', None)
-        if kwargs:
-             raise TypeError('Unexpected **kwargs: %r' % kwargs)
-
-
-class AccountingPattern():
+class AccountingPattern(Base):
     
     __tablename__ = 'accounting_patterns'
 
-    pattern_id = Column(String(255), primary_key=True)
+    pattern_id = Column(String(10), primary_key=True)
     name = Column(String(100))
+    
+    _price = relationship("Price")
     
     def __init__(self , **kwargs):
         self.pattern_id = kwargs.pop('pattern_id', '')
@@ -34,6 +21,23 @@ class AccountingPattern():
              raise TypeError('Unexpected **kwargs: %r' % kwargs)
 
 
+class Price(Base):
+    __tablename__ = 'prices'
+
+    price_id = Column(String(255), primary_key=True)
+    name = Column(String(100))
+    pattern_id = Column(String(10), ForeignKey('accounting_patterns.pattern_id'))
+    
+    def __init__(self , **kwargs):
+        self.price_id = kwargs.pop('price_id', '')
+        self.name = kwargs.pop('name', '')
+        self.accounting_pattern = kwargs.pop('accounting_pattern', None)
+        self.pattern_id = self.accounting_pattern.pattern_id
+        if kwargs:
+             raise TypeError('Unexpected **kwargs: %r' % kwargs)
+
+
+'''
 class AccountingElement():
     
     __tablename__ = 'accounting_elements'
@@ -85,3 +89,4 @@ class AccountingElementValue():
         self.value = value
         if kwargs:
             raise TypeError('Unexpected **kwargs: %r' % kwargs)
+'''
