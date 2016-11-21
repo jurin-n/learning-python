@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [ -z "$1" ]
+then
+  echo '第一引数にコピー先のディレクトリが指定されてません(設定例:/home/y-taro/git/)'
+  exit 1
+fi
+
+TARGET_DIRECTORY=$1
+
+#対象ディレクトリにファイルをコピー
+echo 'TARGET_DIRECTORY='$TARGET_DIRECTORY
+cp -aR .gitignore $TARGET_DIRECTORY 
+cp -aR aws $TARGET_DIRECTORY
+cp -aR basic $TARGET_DIRECTORY
+cp -aR class $TARGET_DIRECTORY
+cp -aR db $TARGET_DIRECTORY 
+cp -aR docker $TARGET_DIRECTORY 
+cp -aR effectivepython $TARGET_DIRECTORY 
+cp -aR json $TARGET_DIRECTORY 
+cp -aR rest $TARGET_DIRECTORY 
+cp -aR web-framework $TARGET_DIRECTORY 
