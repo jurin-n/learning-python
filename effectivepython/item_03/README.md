@@ -1,3 +1,7 @@
+# 概要
+* Effective Python 項番3ためしました。
+* Python2ではstrは8ビットの文字列を含み、unicodeはUnicode文字列を含む。このしようはPython3と異なる。
+
 # virtualenv有効化
 . ~/development/virtualenv/venv27/bin/activate
 
