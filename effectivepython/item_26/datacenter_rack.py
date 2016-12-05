@@ -29,5 +29,7 @@ serialized = """{
 }"""
 
 deserialized = DatacenterRack.from_json(serialized)
+import pprint
+pprint.pprint(deserialized.__dict__)
 roundtrip = deserialized.to_json()
 assert json.loads(serialized) == json.loads(roundtrip)
