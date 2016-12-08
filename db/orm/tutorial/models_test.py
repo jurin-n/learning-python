@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
-from domains import Base, User, Address
+from models import Base, User, Address
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm.session import Session, sessionmaker
 
 class UserTestCase(unittest.TestCase):
     
     def setUp(self):
-        engine = create_engine('sqlite:///domains_test.db', echo=True)
+        engine = create_engine('sqlite:///models_test.db', echo=True)
         Base.metadata.drop_all(engine)
         Base.metadata.create_all(engine)
         # self.session = Session(engine)
@@ -30,8 +30,21 @@ class UserTestCase(unittest.TestCase):
         # print our_user  #TODO:マルチバイト文字列が入ると __repr__で UnicodeEncodeError。このエラーが解決できてない。
         self.assertTrue(user is got_user) 
         self.assertEqual(1, user.id)
-        
+    
+    @unittest.skip('一時的にスキップ')
     def test_join_query(self):
+        self._fixture()
+        for u, a in self.session.query(User, Address).filter(User.id == Address.user_id).filter(User.password == 'xxxx').all():
+            print str(u.id) + ',' + u.name + ',' + a.email_address
+    
+    def test_query(self):
+        self._fixture()
+        for u in self.session.query(User).filter(
+                                    User.addresses.any(
+                                        Address.email_address=='jiro@google.com')).all():
+            print u.fullname
+    
+    def _fixture(self):
         with self.session.begin():
             user1 = User(name='taro', fullname=u'テスト　太郎', password='xxxx')
             user1.addresses = [
@@ -50,21 +63,6 @@ class UserTestCase(unittest.TestCase):
                 ]
             self.session.add_all([user1, user2, user3])
 
-        for u, a in self.session.query(User, Address).filter(User.id == Address.user_id).filter(User.password == 'xxxx').all():
-            print str(u.id) + ',' + u.name + ',' + a.email_address
-
-# class UserTestCase2(TestCase):
-#     
-#     def setUp(self):
-#         engine = create_engine('sqlite:///domains_test.db', echo=True)
-#         Base.metadata.drop_all(engine)
-#         Base.metadata.create_all(engine)
-#         self.session = Session(engine)
-#         
-#     def test_add(self):
-#         ed_user = User(name='jiro', fullname=u'テスト　次郎', password='jirojiro')
-#         self.session.add_all([ed_user])
-#         self.session.commit()
             
 if __name__ == '__main__':
     unittest.main()

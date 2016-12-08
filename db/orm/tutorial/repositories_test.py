@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # from unittest import TestCase, main
 import unittest
-from domains import Base, User, Address
+from models import Base, User, Address
 from repositories import addUser, getAllUser, getUser
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm.session import Session, sessionmaker
