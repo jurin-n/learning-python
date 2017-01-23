@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from product_code import MyGreatClass
+import product_code as sut
 import unittest
 try:
     from unittest import mock
@@ -45,6 +46,28 @@ class MyGreatClassTestCase(unittest.TestCase):
         self.assertIn(mock.call('http://someotherurl.com/anothertest.json'), mock_get.call_args_list)
 
         self.assertEqual(len(mock_get.call_args_list), 2)
+
+    @mock.patch('requests.get', side_effect=mocked_requests_get)
+    def test_fetch_function(self, mock_get):
+        # Assert requests.get calls
+        json_data = sut.fetch_json('http://someurl.com/test.json')
+        self.assertEqual(json_data, {"key1": "value1"})
+        json_data = sut.fetch_json('http://someotherurl.com/anothertest.json')
+        self.assertEqual(json_data, {"key2": "value2"})
+
+        # We can even assert that our mocked method was called with the right parameters
+        self.assertIn(mock.call('http://someurl.com/test.json'), mock_get.call_args_list)
+        self.assertIn(mock.call('http://someotherurl.com/anothertest.json'), mock_get.call_args_list)
+
+        self.assertEqual(len(mock_get.call_args_list), 2)
+
+    #@mock.patch('requests.get', side_effect=mocked_requests_get)
+    def test_fetch_function_using_real_requests(self):
+        from requests.exceptions import ConnectionError
+        with self.assertRaises(ConnectionError):
+            json_data = sut.fetch_json('http://someurl.com/test.json')
+        with self.assertRaises(ConnectionError):
+            json_data = sut.fetch_json('http://someotherurl.com/anothertest.json')
 
 if __name__ == '__main__':
     unittest.main()
