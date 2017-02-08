@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-  
+"""
+ @propertyの動作を確認するためのサンプルコード。
+"""
 class FixedResistance(object):
     def __init__(self, ohms):
         self._ohms = ohms
