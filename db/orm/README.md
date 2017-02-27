@@ -8,6 +8,9 @@ sqlite3 zoo.db
 #### テーブル一覧表示
 .table
 
+#### スキーマ表示
+.schema [テーブル名]
+
 #### ログアウト
 .quit
 
