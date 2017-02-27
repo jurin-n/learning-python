@@ -13,7 +13,7 @@ class Item(Base):
     type = Column(String(5))
 
     parent_id = Column(String(64), ForeignKey('items.item_id'))
-    parent = relationship("Item", backref=('items'), remote_side=[item_id])
+    parent = relationship("Item", backref='items', remote_side=[item_id])
 
     def to_dict(self):
         return {
