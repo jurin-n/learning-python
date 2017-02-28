@@ -10,7 +10,7 @@ class ItemTestCase(unittest.TestCase):
     # テストクラスが初期化される際に一度だけ呼ばれる (python2.7以上)
     @classmethod
     def setUpClass(cls):
-        cls.engine = create_engine('sqlite:///models_test.db', echo=False)
+        cls.engine = create_engine('sqlite:///models_test.db', echo=True)
 
     # テストクラスが解放される際に一度だけ呼ばれる (python2.7以上)
     @classmethod
@@ -58,6 +58,9 @@ class ItemTestCase(unittest.TestCase):
         json_text = json.dumps(got_service.to_dict(), ensure_ascii=False, indent=4)
         print('[DEBUG]002')
         print(json_text)
+        
+        print('[DEBUG]003 print backref parent_item')
+        print(got_service.items[0].parent_item[0].item_id)
 
 
 if __name__ == '__main__':
