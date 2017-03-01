@@ -10,3 +10,6 @@ http://docs.sqlalchemy.org/en/latest/orm/relationship_api.html#sqlalchemy.orm.re
 
 #### join conditions relationship primaryjoin
 http://docs.sqlalchemy.org/en/latest/orm/join_conditions.html#relationship-primaryjoin
+
+### テスト
+python -m unittest models_test.ItemTestCase.${テストメソッド名}
