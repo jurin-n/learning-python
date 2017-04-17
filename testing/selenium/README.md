@@ -8,5 +8,5 @@ pip install selenium
 https://sites.google.com/a/chromium.org/chromedriver/
 
 ## 実行
-python sample.py {PATH_TO_CHROME_DRIVER}
- 実行例)python sample.py ~/development/selenium/chromedriver
+python sample.py {PATH_TO_CHROME_DRIVER} {PATH_TO_SCLEENSHOT_STORE}
+ 実行例)python sample.py ~/development/selenium/chromedriver ~
