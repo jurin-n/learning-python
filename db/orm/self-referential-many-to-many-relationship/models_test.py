@@ -10,7 +10,11 @@ class ItemTestCase(unittest.TestCase):
     # テストクラスが初期化される際に一度だけ呼ばれる (python2.7以上)
     @classmethod
     def setUpClass(cls):
+        # sqlite
         cls.engine = create_engine('sqlite:///models_test.db', echo=True)
+
+        # mysql
+        #cls.engine = create_engine('mysql+pymysql://username:password@xxxx.rds.amazonaws.com:3306/dev?charset=utf8', echo=True)
 
     # テストクラスが解放される際に一度だけ呼ばれる (python2.7以上)
     @classmethod
@@ -98,6 +102,54 @@ class ItemTestCase(unittest.TestCase):
 
         got_items = self.session.query(Item).all()
         self._print_all_items(got_items)
+
+    def test3(self):
+        """
+        Itemに２つのItem紐つけ -> 紐つけたItem1つ紐つけ解除。
+        """
+        item1 = Item(item_id=u'I001', name=u'商品１', type='item')
+        item2 = Item(item_id=u'I002', name=u'商品2', type='option')
+        with self.session.begin():
+            self.session.add_all([item1, item2])
+
+        got_item1 = self.session.query(Item).get(u'I001')
+        got_item2 = self.session.query(Item).get(u'I002')
+        
+        print('item_id=S001に2つのItemを紐つける')
+        service1 = Item(item_id=u'S001', name=u'サービス１', type='service')
+        service1.items.append(got_item1)
+        service1.items.append(got_item2)
+        service2 = Item(item_id=u'S002', name=u'サービス２', type='service')
+        service2.items.append(got_item1)
+
+        with self.session.begin():
+            self.session.add_all([service1,service2])
+
+        got_items = self.session.query(Item).all()
+        self._print_all_items(got_items)
+
+        from sqlalchemy.orm import aliased
+        itemalias = aliased(Item)
+        print('-'*80)
+        print('items.type=="option"で検索。')
+        got_items_002 = self.session.query(Item).join(itemalias, Item.items).\
+            filter(itemalias.type=="option").\
+            all()
+        self._print_all_items(got_items_002)
+
+        print('-'*80)
+        print('items.type=="item"で検索。')
+        got_items_003 = self.session.query(Item).join(itemalias, Item.items).\
+            filter(itemalias.type=="item").\
+            all()
+        self._print_all_items(got_items_003)
+
+        print('-'*80)
+        print('items.type=="xxx"で検索。')
+        got_items_004 = self.session.query(Item).join(itemalias, Item.items).\
+            filter(itemalias.type=="xxx").\
+            all()
+        self._print_all_items(got_items_004)
 
     def _print_all_items(self, items):
         print('_print_all_items start')
