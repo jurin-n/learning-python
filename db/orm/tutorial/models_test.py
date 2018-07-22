@@ -3,6 +3,7 @@ import unittest
 from models import Base, User, Address
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm.session import Session, sessionmaker
+from sqlalchemy import inspect
 
 class UserTestCase(unittest.TestCase):
     
@@ -12,7 +13,9 @@ class UserTestCase(unittest.TestCase):
         Base.metadata.create_all(engine)
         # self.session = Session(engine)
         Session = sessionmaker(bind=engine, autocommit=True)
+        Session2 = sessionmaker(bind=engine, autocommit=False)
         self.session = Session()
+        self.session_auto_false = Session2()
 
     @unittest.skip("スキップ理由・・・")  
     def test_add(self):
@@ -41,8 +44,24 @@ class UserTestCase(unittest.TestCase):
         self._fixture()
         for u in self.session.query(User).filter(
                                     User.addresses.any(
-                                        Address.email_address=='jiro@google.com')).all():
+                                        Address.email_address == 'jiro@google.com')).all():
             print u.fullname
+
+    def test_query2(self):
+        self._fixture()
+        user = self.session_auto_false.query(User).get(1)
+        insp = inspect(user)
+        #self.session_auto_false.expunge(user)
+        print(insp.detached)
+        print('[DEBUG]before del user.addresses[0]')
+        del user.addresses[0]
+        print('[DEBUG]after del user.addresses[0]')
+        self.session_auto_false.commit()
+        print('[DEBUG]after commit')
+        #with self.session.begin():
+        for state in ['transient', 'pending', 'persistent', 'detached']:
+            print('{:>10}: {}'.format(state, getattr(insp, state)))
+        
     
     def _fixture(self):
         with self.session.begin():

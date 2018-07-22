@@ -30,4 +30,4 @@ class Address(Base):
     def __repr__(self):
         return "<Address(email_address='%s')>" % self.email_address
 
-User.addresses = relationship("Address", order_by=Address.id, back_populates="user")
+User.addresses = relationship("Address", order_by=Address.id, back_populates="user", lazy='joined')
