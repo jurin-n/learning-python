@@ -6,6 +6,7 @@ try:
     print(type(res.text))  # Python2.7だとunicode
     print(type(res.content))  # Python2.7だとstr
 except Exception as err:
-    print('Exception!' + err)
+    print('Exception!')
+    print(err)
 
 
