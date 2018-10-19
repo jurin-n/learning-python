@@ -12,6 +12,11 @@ conda create --name pydata
 source activate pydata
 ```
 
+#### Jupyter Notebook起動
+```
+jupyter notebook  --no-browser
+```
+
 #### バーチャル環境無効化
 ```
 source deactivate
